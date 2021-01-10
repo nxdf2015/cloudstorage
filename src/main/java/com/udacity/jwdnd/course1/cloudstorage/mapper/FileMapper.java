@@ -23,4 +23,7 @@ public interface FileMapper {
 
     @Select("select filename from files where filename = #{filename}")
     String findByName(String filename);
+
+    @Select("select fileid, filename, contenttype, filesize,filedata,userid from files where fileid = #{id}")
+    UploadFile findById(int id);
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,5 +45,9 @@ public class UploadFileService {
         int count = fileMapper.delete(id);
         updateFiles();
         return count;
+    }
+
+    public UploadFile findById(int id) {
+        return fileMapper.findById(id);
     }
 }

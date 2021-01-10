@@ -71,5 +71,15 @@ public class UploadFile {
         this.filedata = filedata;
     }
 
-
+    @Override
+    public String toString() {
+        return "UploadFile{" +
+                "fileid=" + fileid +
+                ", filename='" + filename + '\'' +
+                ", contenttype='" + contenttype + '\'' +
+                ", filesize='" + filesize + '\'' +
+                ", userid=" + userid +
+                ", filedata=" + filedata +
+                '}';
+    }
 }

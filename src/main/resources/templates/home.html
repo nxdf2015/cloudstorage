@@ -43,7 +43,7 @@
                                                name="uploadfile">
                                     </div>
                                     <div class="col-sm-4">
-                                        <button type="submit" class="btn btn-dark">Upload</button>
+                                        <button  type="submit" class="btn btn-dark">Upload</button>
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +60,9 @@
                                 <tbody>
                                 <tr th:each="data : ${files}">
                                     <td>
-                                        <a target="_blank" class="btn btn-success">View</a>
+                                        <a
+                                                th:href="@{/file/download/{id}(id=${data.fileid})}"
+                                                target="_blank" class="btn btn-success">View</a>
                                         <a  class="btn btn-danger"
                                             th:href="@{/file/delete/{id}(id=${data.fileid})}"
                                         >Delete</a>
