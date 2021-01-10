@@ -30,7 +30,11 @@ public class CredentialService {
     }
 
     public List<Credential> getAll(){
-       return credentials.stream().map(this::decode).collect(Collectors.toList());
+       return credentials;
+    }
+
+    public List<Credential> getAllEncoded(){
+        return credentials;
     }
 
     public int create(CredentialForm credentialForm, int userid){
@@ -81,5 +85,11 @@ public class CredentialService {
         int count = credentialMapper.update(credential);
         updateCredentials();
         return count;
+    }
+
+    public Credential decodePassword(int id) {
+        Credential credential = credentialMapper.findOne(id);
+
+        return decode(credential);
     }
 }

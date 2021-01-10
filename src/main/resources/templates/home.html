@@ -25,14 +25,22 @@
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
-                        <form action="#" enctype="multipart/form-data" method="POST">
+                        <form action="#"
+                              enctype="multipart/form-data"
+                              method="POST"
+                              th:action="@{/file}">
+
                             <div class="container">
                                 <div class="row" style="margin: 1em;">
                                     <div class="col-sm-2">
                                         <label for="fileUpload">Upload a New File:</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="file" class="form-control-file" id="fileUpload" name="fileUpload">
+                                        <input type="file"
+                                               class="form-control-file"
+                                               id="fileUpload"
+                                               required
+                                               name="uploadfile">
                                     </div>
                                     <div class="col-sm-4">
                                         <button type="submit" class="btn btn-dark">Upload</button>
@@ -43,18 +51,23 @@
                         <div class="table-responsive">
                             <table class="table table-striped" id="fileTable">
                                 <thead>
-                                    <tr>
+                                    <tr >
                                         <th style="width: 20%" scope="col"></th>
-                                        <th style="width: 80%" scope="col">File Name</th>
+                                        <th style="width: 80%" scope="col"
+                                        >File Name</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr th:each="data : ${files}">
                                     <td>
                                         <a target="_blank" class="btn btn-success">View</a>
-                                        <a  class="btn btn-danger">Delete</a>
+                                        <a  class="btn btn-danger"
+                                            th:href="@{/file/delete/{id}(id=${data.fileid})}"
+                                        >Delete</a>
                                     </td>
-                                    <th scope="row">ExampleFile.txt</th>
+                                    <th scope="row"
+                                        th:text="${data.filename}"
+                                    >ExampleFile.txt</th>
                                 </tr>
                                 </tbody>
                             </table>
@@ -234,6 +247,7 @@
             function showNoteModal(noteId, noteTitle, noteDescription,edit) {
                if(edit){
                $('#note-form').attr('action',`/note/edit/${noteId}`)
+
                }
                 $('#note-id').val(noteId ? noteId : '');
                 $('#note-title').val(noteTitle ? noteTitle : '');
@@ -243,15 +257,35 @@
 
             // For opening the credentials modal
             function showCredentialModal(credentialId, url, username, password) {
+            $('#credential-password').val('');
+            $('#credential-id').val(credentialId ? credentialId : '');
+            $('#credential-url').val(url ? url : '');
+            $('#credential-username').val(username ? username : '');
+
             if(credentialId){
                 $("#credential-form").attr("action",`/credential/edit/${credentialId}`)
+                handler(credentialId).then(password => {
+
+                    $('#credential-password').val(password)
+                    $('#credentialModal').modal('show')
+                    })
+                 .catch(error => console.log(error))
             }
-                $('#credential-id').val(credentialId ? credentialId : '');
-                $('#credential-url').val(url ? url : '');
-                $('#credential-username').val(username ? username : '');
-                $('#credential-password').val(password ? password : '');
-                $('#credentialModal').modal('show');
+            else {
+            $('#credentialModal').modal('show');
             }
+
+            }
+
+
+    var  handler = (credentialid) =>      new Promise((resolve,reject) => {
+                const req = new XMLHttpRequest()
+                req.open("get",`/credential/decode/${credentialid}`)
+                req.onload= function(){
+                resolve(req.response)}
+                req.onerror = e => reject(e)
+                req.send()}
+                )
         </script>
     </body>
 </html>

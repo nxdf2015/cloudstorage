@@ -20,4 +20,7 @@ public interface CredentialMapper {
 
     @Update("update credentials set url=#{url} , username=#{username} , password = #{password}, key= #{key}  where credentialid=#{credentialid}")
     int update(Credential credential);
+
+    @Select("select userid,credentialid, key, url,username,password from credentials where credentialid = #{credentialid}")
+    Credential findOne(int credentialid);
 }
