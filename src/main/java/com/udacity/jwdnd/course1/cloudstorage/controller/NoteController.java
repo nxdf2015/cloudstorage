@@ -2,8 +2,11 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 
 import com.udacity.jwdnd.course1.cloudstorage.model.note.NoteForm;
+import com.udacity.jwdnd.course1.cloudstorage.model.user.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
+import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,19 +21,23 @@ public class NoteController {
      @Autowired
      NoteService noteService;
 
-//     todo update userid with authentication line 23 29
+     @Autowired
+    UserService userService;
+
 
      @PostMapping
-     public String createNote(NoteForm noteform,Model model) {
-         noteService.create(noteform,1);
+     public String createNote(NoteForm noteform, Model model, Authentication authentication) {
+         User user = userService.findByUserName(authentication.getName());
+         noteService.create(noteform,user.getUserid());
          model.addAttribute("success",true);
          return "result";
      }
 
      @PostMapping("/edit/{id}")
-     public String editNote(NoteForm noteForm, @PathVariable("id") int noteid, Model model){
+     public String editNote(NoteForm noteForm, @PathVariable("id") int noteid, Model model,Authentication authentication){
+         User user = userService.findByUserName(authentication.getName());
          noteForm.setNoteid(noteid);
-         noteService.edit(noteForm, 1);
+         noteService.edit(noteForm, user.getUserid());
          model.addAttribute("success",true);
          return "result";
      }

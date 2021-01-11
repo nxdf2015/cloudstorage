@@ -13,8 +13,8 @@ public interface NoteMapper {
     @Options(keyProperty = "noteid" , useGeneratedKeys = true)
     public int create(Note note);
 
-    @Select("select noteid, notetitle, notedescription, userid from notes")
-    public List<Note> getAll();
+    @Select("select noteid, notetitle, notedescription, userid from notes where userid = #{userid}")
+    public List<Note> getAll(int userid);
 
     @Update("update notes set notetitle=#{notetitle}, notedescription=#{notedescription} where noteid=#{noteid}")
     int update(Note from);

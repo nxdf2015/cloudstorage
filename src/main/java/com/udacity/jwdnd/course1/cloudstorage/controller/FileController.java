@@ -2,13 +2,17 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.exception.InvalidData;
 import com.udacity.jwdnd.course1.cloudstorage.model.file.UploadFile;
+import com.udacity.jwdnd.course1.cloudstorage.model.user.User;
+import com.udacity.jwdnd.course1.cloudstorage.services.AuthenticationService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UploadFileService;
+import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -25,9 +29,13 @@ public class FileController {
     @Autowired
     UploadFileService uploadFileService;
 
+    @Autowired
+    UserService userService;
+
     @PostMapping
-    public String uploadFile(MultipartFile uploadfile, Model model) throws IOException, InvalidData {
-            uploadFileService.save(uploadfile,1);
+    public String uploadFile(MultipartFile uploadfile, Model model, Authentication authentication) throws IOException, InvalidData {
+        User user = userService.findByUserName(authentication.getName());
+            uploadFileService.save(uploadfile,user.getUserid());
         model.addAttribute("success",true);
         return "result";
     }

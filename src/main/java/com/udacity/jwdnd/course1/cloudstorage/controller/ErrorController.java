@@ -30,6 +30,7 @@ public class ErrorController {
 
   @ExceptionHandler(Exception.class)
   public ModelAndView renderIOError(HttpServletRequest request, Exception e){
+    System.out.println(e.getMessage());
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.addObject("success",false);
     modelAndView.addObject("message",false);
