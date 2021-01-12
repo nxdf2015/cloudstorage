@@ -6,6 +6,7 @@ import com.udacity.jwdnd.course1.cloudstorage.model.credential.CredentialForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -15,8 +16,12 @@ import java.util.stream.Collectors;
 @Component
 public class CredentialService {
 
-    private List<Credential> credentials;
+
     private Random random;
+
+
+    @Autowired
+    UserAuthService userAuthService;
 
     @Autowired
     CredentialMapper credentialMapper;
@@ -24,25 +29,21 @@ public class CredentialService {
     @Autowired
     EncryptionService encryptionService;
 
+    @Autowired
     public CredentialService() {
-        credentials = new ArrayList<>();
         random = new Random();
     }
 
     public List<Credential> getAll(){
-       return credentials;
+        int userid = userAuthService.getUserid();
+        return credentialMapper.getAll(userid);
     }
 
-    public List<Credential> getAllEncoded(){
-        return credentials;
-    }
-
-    public int create(CredentialForm credentialForm, int userid){
+    public int create(CredentialForm credentialForm){
+        int userid = userAuthService.getUserid();
         Credential credential = credentialFrom(credentialForm,userid);
         int id = credentialMapper.create(credential);
-        updateCredentials();
         return id;
-
     }
 
     private Credential decode(Credential credential){
@@ -50,6 +51,7 @@ public class CredentialService {
         clone.setPassword(encryptionService.decryptValue(credential.getPassword(),credential.getKey()));
         return clone;
     }
+
     private Credential credentialFrom(CredentialForm credentialForm,int userid){
         Credential credential = new Credential();
         credential.setUserid(userid);
@@ -64,32 +66,25 @@ public class CredentialService {
     private String generateKey(){
         byte[] key = new byte[16];
         random.nextBytes(key);
-
         return Base64.getEncoder().encodeToString(key);
     }
 
 
-    private void updateCredentials() {
-        this.credentials = credentialMapper.getAll();
-    }
-
     public int delete(int credentialid) {
         int count =  credentialMapper.delete(credentialid);
-        updateCredentials();
         return count;
     }
 
-    public int  update(CredentialForm credentialForm , int credentialid,int userid) {
+    public int  update(CredentialForm credentialForm, int credentialid) {
+        int userid = userAuthService.getUserid();
         Credential credential = credentialFrom(credentialForm,userid);
         credential.setCredentialid(credentialid);
         int count = credentialMapper.update(credential);
-        updateCredentials();
         return count;
     }
 
     public Credential decodePassword(int id) {
         Credential credential = credentialMapper.findOne(id);
-
         return decode(credential);
     }
 }

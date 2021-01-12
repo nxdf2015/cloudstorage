@@ -26,8 +26,8 @@ public class CredentialController {
 
     @PostMapping
     public String create(CredentialForm credentialForm, Model model, Authentication authentication){
-        User user = userService.findByUserName(authentication.getName());
-        int id = credentialService.create(credentialForm,user.getUserid());
+
+        int id = credentialService.create(credentialForm);
         model.addAttribute("success",true);
         return "result";
     }
@@ -41,8 +41,8 @@ public class CredentialController {
 
     @PostMapping("/edit/{id}")
     public String edit(@PathVariable("id") int credentialid,CredentialForm credentialForm, Model model,Authentication authentication){
-        User user = userService.findByUserName(authentication.getName());
-        credentialService.update(credentialForm,credentialid,user.getUserid());
+
+        credentialService.update(credentialForm, credentialid);
         model.addAttribute("success",true);
         return "result";
     }

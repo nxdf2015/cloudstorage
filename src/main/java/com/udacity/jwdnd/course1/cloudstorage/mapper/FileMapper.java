@@ -3,9 +3,7 @@ package com.udacity.jwdnd.course1.cloudstorage.mapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.file.FileData;
 import com.udacity.jwdnd.course1.cloudstorage.model.file.UploadFile;
 import org.apache.ibatis.annotations.*;
-import org.apache.tomcat.util.http.fileupload.FileUpload;
 
-import java.io.InputStream;
 import java.util.List;
 
 @Mapper
@@ -15,8 +13,8 @@ public interface FileMapper {
     @Options(keyProperty = "fileid", useGeneratedKeys = true)
     public int  save(UploadFile fileUpload);
 
-    @Select("select fileid, filename, contenttype, filesize, userid from files")
-    public List<FileData> getAll();
+    @Select("select fileid, filename, contenttype, filesize, userid from files where userid= #{userid}")
+    public List<FileData> getAll(int userid);
 
     @Delete("delete from files where fileid=#{id}")
     int delete(int id);

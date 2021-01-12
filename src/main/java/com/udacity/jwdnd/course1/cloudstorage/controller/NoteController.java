@@ -21,23 +21,19 @@ public class NoteController {
      @Autowired
      NoteService noteService;
 
-     @Autowired
-    UserService userService;
-
 
      @PostMapping
      public String createNote(NoteForm noteform, Model model, Authentication authentication) {
-         User user = userService.findByUserName(authentication.getName());
-         noteService.create(noteform,user.getUserid());
+         noteService.create(noteform);
          model.addAttribute("success",true);
          return "result";
      }
 
      @PostMapping("/edit/{id}")
      public String editNote(NoteForm noteForm, @PathVariable("id") int noteid, Model model,Authentication authentication){
-         User user = userService.findByUserName(authentication.getName());
+
          noteForm.setNoteid(noteid);
-         noteService.edit(noteForm, user.getUserid());
+         noteService.edit(noteForm);
          model.addAttribute("success",true);
          return "result";
      }

@@ -19,39 +19,27 @@ public class NoteService {
     @Autowired
     NoteMapper mapper;
 
-    private List<Note> notes;
 
-
-    public  int  create(NoteForm noteForm,int userid) {
+    public  int  create(NoteForm noteForm) {
+        int userid = userAuthService.getUserid();
         int id  = mapper.create(Note.from(noteForm,userid));
-        updateNotes();
         return id;
     }
 
-    private void updateNotes() {
-        int userid = userAuthService.getUserid();
-        notes = mapper.getAll(userid);
-    }
 
     public List<Note> getAll() {
         int userid = userAuthService.getUserid();
-        return  mapper.getAll(userid);
-
-//        if(notes==null){
-//            updateNotes();
-//        }
-//        return notes;
+        return mapper.getAll(userid);
     }
 
-    public int  edit(NoteForm noteForm,int userid) {
+    public int  edit(NoteForm noteForm) {
+        int userid = userAuthService.getUserid();
         int count = mapper.update(Note.from(noteForm,userid));
-        updateNotes();
         return count;
     }
 
     public int delete(int noteid) {
       int count =  mapper.deleteOne(noteid);
-      updateNotes();
       return count;
     }
 }

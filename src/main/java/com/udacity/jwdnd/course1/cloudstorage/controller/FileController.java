@@ -29,13 +29,11 @@ public class FileController {
     @Autowired
     UploadFileService uploadFileService;
 
-    @Autowired
-    UserService userService;
 
     @PostMapping
     public String uploadFile(MultipartFile uploadfile, Model model, Authentication authentication) throws IOException, InvalidData {
-        User user = userService.findByUserName(authentication.getName());
-            uploadFileService.save(uploadfile,user.getUserid());
+
+            uploadFileService.save(uploadfile);
         model.addAttribute("success",true);
         return "result";
     }
