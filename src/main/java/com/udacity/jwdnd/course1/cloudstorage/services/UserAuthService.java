@@ -20,7 +20,6 @@ public class UserAuthService  {
     public int getUserid(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user  = userService.findByUserName(authentication.getName());
-        System.out.println(user);
         return user.getUserid();
     }
 

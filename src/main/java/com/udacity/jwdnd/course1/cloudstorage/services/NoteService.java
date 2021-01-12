@@ -34,10 +34,13 @@ public class NoteService {
     }
 
     public List<Note> getAll() {
-        if(notes==null){
-            updateNotes();
-        }
-        return notes;
+        int userid = userAuthService.getUserid();
+        return  mapper.getAll(userid);
+
+//        if(notes==null){
+//            updateNotes();
+//        }
+//        return notes;
     }
 
     public int  edit(NoteForm noteForm,int userid) {
