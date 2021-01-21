@@ -63,12 +63,12 @@ public class SignupTests {
 
         signupPage = new SignupPage(driver);
         signupPage.toLogin();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
         driver.get("http://localhost:" + this.port + "/login");
-        Assertions.assertEquals("Login",driver.getTitle());
+
+
         loginPage = new LoginPage(driver);
         loginPage.login("aaaa","aaaa");
-
 
         Assertions.assertEquals("Home",driver.getTitle());
     }
