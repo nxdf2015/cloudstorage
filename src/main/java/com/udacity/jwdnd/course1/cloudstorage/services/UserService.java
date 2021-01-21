@@ -6,6 +6,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Random;
 
 @Component
@@ -20,6 +21,10 @@ public class UserService {
     public User findById(int userid){
 
         return null;
+    }
+
+    public List<User> getAll(){
+        return userMapper.getAll();
     }
     private String generateKey(){
         Random random = new Random();

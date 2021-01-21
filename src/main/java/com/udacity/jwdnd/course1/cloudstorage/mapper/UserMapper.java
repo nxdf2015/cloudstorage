@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
 
@@ -17,4 +19,7 @@ public interface UserMapper {
     @Select("select userid, username,salt,password,firstname,lastname from users " +
             "where username = #{username}")
     User findByUserName(String username);
+
+    @Select("select * from users")
+    List<User> getAll();
 }
