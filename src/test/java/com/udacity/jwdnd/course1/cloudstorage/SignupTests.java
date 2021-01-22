@@ -7,11 +7,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.html5.AddApplicationCache;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import utilities.HomePage;
 import utilities.LoginPage;
 import utilities.SignupPage;
 
@@ -24,19 +26,18 @@ public class SignupTests {
     @LocalServerPort
     private int port;
 
-    @Autowired
-    UserService userService;
+
 
     private WebDriver driver;
 
     @BeforeAll
     static void beforeAll() {
-        WebDriverManager.chromedriver().setup();
+        WebDriverManager.firefoxdriver().setup();
     }
 
     @BeforeEach
     public void beforeEach() {
-        this.driver = new ChromeDriver();
+        this.driver = new FirefoxDriver();
         driver.get("http://localhost:" + this.port + "/");
     }
 
@@ -53,6 +54,7 @@ public class SignupTests {
 
     // test that signs up a new user, logs in, verifies that the home page is accessible, logs ou
     @Test
+
     public void testSignUp ()throws Exception{
 
         driver.get("http://localhost:" + this.port + "/home");
@@ -64,13 +66,26 @@ public class SignupTests {
         signupPage = new SignupPage(driver);
         signupPage.toLogin();
 
-        driver.get("http://localhost:" + this.port + "/login");
-
+        Assertions.assertEquals("Login",driver.getTitle());
 
         loginPage = new LoginPage(driver);
         loginPage.login("aaaa","aaaa");
-
         Assertions.assertEquals("Home",driver.getTitle());
+
+        HomePage homePage = new HomePage(driver);
+        homePage.logout();
+
+        Assertions.assertEquals("Login", driver.getTitle());
+
+//        driver.get("http://localhost:" + this.port + "/home");
+
+        Assertions.assertEquals("Login", driver.getTitle());
+
+    }
+
+    @Test
+    public void createNote(){
+
     }
 
     @AfterEach

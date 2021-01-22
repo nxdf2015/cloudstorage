@@ -41,8 +41,8 @@ class CloudStorageApplicationTests {
 
 	@Test
 	public void userSignUp(){
-		driver.get("/");
-
+		driver.get("http://localhost:" + this.port + "/");
+		Assertions.assertEquals("Login", driver.getTitle());
 	}
 
 
