@@ -21,4 +21,7 @@ public interface NoteMapper {
 
     @Delete("delete from notes where noteid=#{noteid}")
     int deleteOne(int noteid);
+
+    @Delete("delete from notes")
+    void clear();
 }

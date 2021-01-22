@@ -54,5 +54,8 @@ public class UserService {
         return userMapper.findByUserName(name);
     }
 
-    // TODO add reset users
+    public void clear(){
+        userMapper.clear();
+    }
+
 }

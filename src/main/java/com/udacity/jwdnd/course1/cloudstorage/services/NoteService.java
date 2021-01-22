@@ -3,6 +3,7 @@ package com.udacity.jwdnd.course1.cloudstorage.services;
 import com.udacity.jwdnd.course1.cloudstorage.mapper.NoteMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.note.Note;
 import com.udacity.jwdnd.course1.cloudstorage.model.note.NoteForm;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -41,5 +42,10 @@ public class NoteService {
     public int delete(int noteid) {
       int count =  mapper.deleteOne(noteid);
       return count;
+    }
+
+
+    public void clear() {
+        mapper.clear();
     }
 }
