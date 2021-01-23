@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/")
@@ -20,6 +21,12 @@ public class UserController {
 
     @GetMapping("/login")
     public String login(){
+        return "login";
+    }
+
+    @PostMapping("/login/error")
+    public String loginError(Model model){
+        model.addAttribute("error",true);
         return "login";
     }
 
@@ -34,13 +41,15 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String createAccount(User user, Model model){
+    public String createAccount(User user, Model model, RedirectAttributes redirectAttributes){
 
         if(userService.save(user)){
-            model.addAttribute("signup",true);
+            redirectAttributes.addFlashAttribute("signup",true);
+            return "redirect:/login";
         }
         else {
-            model.addAttribute("error",true);
+            model.addAttribute("user", new User());
+            model.addAttribute("error","user already exist");
         }
         return "signup";
     }

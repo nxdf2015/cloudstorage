@@ -62,8 +62,6 @@ public class SignupTests {
         SignupPage signupPage = new SignupPage(driver);
         signupPage.signup("aaaa","aaaa","aaaa","aaaa");
 
-        signupPage = new SignupPage(driver);
-        signupPage.toLogin();
 
         Assertions.assertEquals("Login",driver.getTitle());
 

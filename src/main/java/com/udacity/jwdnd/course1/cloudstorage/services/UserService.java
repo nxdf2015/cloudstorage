@@ -41,7 +41,8 @@ public class UserService {
 
     public boolean save(User user){
         if(exist(user)){
-            throw new IllegalArgumentException("user already exist");
+            return false;
+           // throw new IllegalArgumentException("user already exist");
         }
         return  userMapper.create(hashPassword(user)) == 1;
     }
@@ -56,6 +57,10 @@ public class UserService {
 
     public void clear(){
         userMapper.clear();
+    }
+
+    public boolean compare(String password, User user){
+        return hashService.getHashedValue(password, user.getSalt()).equals(user.getPassword());
     }
 
 }

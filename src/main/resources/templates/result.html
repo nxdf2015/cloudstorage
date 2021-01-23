@@ -17,17 +17,16 @@
                 <span>Your changes were successfully saved. Click <a  id="continue-link" th:href="@{/home}">here</a> to continue.</span>
             </div>
             <div  th:unless="${success}">
-                <div class="alert alert-danger fill-parent"
-                     th:unless="${message}">
-                    <h1 class="display-5">Error</h1>
+                <div class="alert alert-danger fill-parent">
+                    <h1 class="display-5" th:text="${message}">Error</h1>
                     <span>Your changes were not saved. Click <a th:href="@{/home}">here</a> to continue.</span>
                 </div>
-                <div th:if="${message}"
-                     class="alert alert-danger fill-parent">
-                    <h1 class="display-5">Error</h1>
-                    <span th:text="${error}">Example Error Message</span>
-                    <span>Click <a th:href="@{/home}">here</a> to continue.</span>
-                </div>
+<!--                <div th:if="${message}"-->
+<!--                     class="alert alert-danger fill-parent">-->
+<!--                    <h1 class="display-5">Error</h1>-->
+<!--                    <span th:text="${message}">Example Error Message</span>-->
+<!--                    <span>Click <a th:href="@{/home}">here</a> to continue.</span>-->
+<!--                </div>-->
             </div>
 
         </div>

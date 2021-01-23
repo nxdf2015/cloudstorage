@@ -32,9 +32,15 @@ public class FileController {
 
     @PostMapping
     public String uploadFile(MultipartFile uploadfile, Model model, Authentication authentication) throws IOException, InvalidData {
-
-            uploadFileService.save(uploadfile);
-        model.addAttribute("success",true);
+       try {
+           uploadFileService.save(uploadfile);
+           model.addAttribute("success", true);
+       }
+       catch (InvalidData e){
+           String message = String.format("%s already uploaded",uploadfile.getOriginalFilename());
+           model.addAttribute("message", message);
+           model.addAttribute("success", false);
+       }
         return "result";
     }
 

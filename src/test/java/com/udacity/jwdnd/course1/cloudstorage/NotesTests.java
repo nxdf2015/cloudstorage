@@ -40,9 +40,6 @@ public class NotesTests {
         SignupPage signupPage = new SignupPage(driver);
         signupPage.signup("a","a","a","a");
 
-        signupPage = new SignupPage(driver);
-        signupPage.toLogin();
-
         Assertions.assertEquals("Login",driver.getTitle());
 
         loginPage = new LoginPage(driver);

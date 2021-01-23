@@ -23,7 +23,7 @@ public class AuthenticationService implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
         User user = userService.findByUserName(name);
 
-        if (user != null){
+        if (user != null && userService.compare(password,user)){
             return new UsernamePasswordAuthenticationToken(name, password, new ArrayList<>());
         }
         return null;
