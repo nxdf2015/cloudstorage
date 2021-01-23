@@ -54,7 +54,6 @@ public class SignupTests {
 
     // test that signs up a new user, logs in, verifies that the home page is accessible, logs ou
     @Test
-
     public void testSignUp ()throws Exception{
 
         driver.get("http://localhost:" + this.port + "/home");
@@ -83,10 +82,7 @@ public class SignupTests {
 
     }
 
-    @Test
-    public void createNote(){
 
-    }
 
     @AfterEach
     public void afterEach() {

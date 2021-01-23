@@ -12,9 +12,13 @@ public class DataService {
     @Autowired
     NoteService noteService;
 
+    @Autowired
+    CredentialService credentialService;
+
     public void clear() {
 
         noteService.clear();
+        credentialService.clear();
         userService.clear();
     }
 }

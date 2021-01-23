@@ -36,8 +36,12 @@ public class HomePage {
     @FindBy(className = "btn-edit-note")
     List<WebElement> btnEdit;
 
-    @FindBy(tagName = "tr")
+    @FindBy(className = "delete-note")
+    List<WebElement> btnDelete;
+
+    @FindBy(className = "note-item")
     List<WebElement> notes;
+
 
 
     public HomePage(WebDriver driver){
@@ -58,19 +62,33 @@ public class HomePage {
     }
 
     private void addData(String title, String description) {
+        inputNoteTitle.clear();
         inputNoteTitle.sendKeys(title);
+        inputNoteDescription.clear();
         inputNoteDescription.sendKeys(description);
         btnSaveNote.click();
     }
 
     public boolean contains(String title){
-     return notes.stream().filter(note -> note.findElement(By.xpath("//*[text()='title']")) != null) != null;
+        System.out.println(notes.size());
+        try {
+
+            return notes.get(0).findElement(By.cssSelector(".note-title")).getText().equals(title);
+        }
+        catch(Exception e){
+            return false;
+        }
 
     }
 
     public void editNote(int index,String newtitle, String newdescription){
         btnEdit.get(0).click();
         addData(newtitle,newdescription);
+    }
+
+
+    public void deleteFirst() {
+        btnDelete.get(0).click();
     }
 
 

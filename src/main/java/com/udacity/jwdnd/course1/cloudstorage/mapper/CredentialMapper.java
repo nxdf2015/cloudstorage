@@ -23,4 +23,7 @@ public interface CredentialMapper {
 
     @Select("select userid,credentialid, key, url,username,password from credentials where credentialid = #{credentialid}")
     Credential findOne(int credentialid);
+
+    @Delete("delete from credentials")
+    void clear();
 }

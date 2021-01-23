@@ -89,8 +89,36 @@ public class NotesTests {
         successPage = new SuccessPage(driver);
         successPage.success();
 
+        homePage = new HomePage(driver);
+        homePage.toNoteTab();
 
        Assertions.assertTrue(homePage.contains("new title"));
+
+    }
+
+    //Write a test that deletes a note and verifies that the note is no longer displayed
+    @Test
+    public void deleteNote(){
+        HomePage homePage;
+        SuccessPage successPage;
+
+        homePage = new HomePage(driver);
+        homePage.toNoteTab();
+
+        homePage.addNote("title 1","a note test");
+
+        successPage = new SuccessPage(driver);
+        successPage.success();
+
+        homePage = new HomePage(driver);
+        homePage.toNoteTab();
+
+        homePage.deleteFirst();
+
+        successPage = new SuccessPage(driver);
+        successPage.success();
+
+        Assertions.assertTrue(!homePage.contains("title 1"));
 
     }
 

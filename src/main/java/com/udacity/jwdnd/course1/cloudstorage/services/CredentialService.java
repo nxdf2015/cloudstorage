@@ -87,4 +87,8 @@ public class CredentialService {
         Credential credential = credentialMapper.findOne(id);
         return decode(credential);
     }
+
+    public void clear() {
+        credentialMapper.clear();
+    }
 }
